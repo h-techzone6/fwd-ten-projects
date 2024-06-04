@@ -16,7 +16,35 @@
     <link rel="stylesheet" href="style.css" />
     <title>Bootstrap Example</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- custom css  -->
+    <style>
+      *{
+        font-family: monospace;
+        font-size: 15px;
+      }
+    
+#typed {
+  /* font-weight: bold; */
+  font-size: 40px;
+  color: #29e30c;
+}
 
+.cursor {
+  display: inline-block;
+  background-color: #b0ff95;
+  animation: blinker 500ms infinite;
+}
+
+.cursor.typing-true {
+  animation: none;
+}
+
+@keyframes blinker {
+	0% { background-color: #05e52e; }
+	50% { background-color: transparent; }
+	100% { background-color: #0ae67b; }
+}
+    </style>
   </head>
   <body class="bg-black">
     <!-- Example Code -->
@@ -80,7 +108,10 @@
         </div>
         <div class="col-lg-6">
           <h1 class="display-5 fw-bold lh-1 mb-3 text-light">Responsive left-aligned hero with image</h1>
-          <p class="lead text-light">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+          <p class="lead text-light mb-2">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+          <div class="wrapper">
+            <h1 class="effect-wrapper text-white">Coding is <span id="typed"></span><span class="cursor">&nbsp;</span></h1>
+            </div>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
             <button type="button" class="btn btn-success btn-lg px-4 me-md-2">Success</button>
             <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
@@ -427,6 +458,47 @@
       AOS.init({
   duration: 1200,
 })
+
+const typedSpan = document.getElementById("typed")
+const totype = ["Fun", "Love", "Life", "Addiction"]
+
+const delayTyping_char = 200;
+const delayErasing_text = 150;
+const delayTyping_text = 1000;
+
+let totypeIndex = 0;
+let charIndex = 0;
+
+function typeText() {
+	if (charIndex < totype[totypeIndex].length) {
+		typedSpan.textContent += totype[totypeIndex].charAt(charIndex);
+		charIndex++;
+		setTimeout(typeText, delayTyping_char);
+	}
+	else {
+		setTimeout(eraseText, delayTyping_text);
+	}
+}
+
+function eraseText() {
+	if (charIndex > 0) {
+		typedSpan.textContent = totype[totypeIndex].substring(0, charIndex-1);
+		charIndex = charIndex-1;
+		setTimeout(eraseText, delayErasing_text);
+	}
+	else {
+		totypeIndex++;
+
+		if (totypeIndex >= totype.length)
+			totypeIndex = 0;
+			setTimeout(typeText, delayTyping_text);
+	}
+}
+
+window.onload = function() {
+	if (totype[totypeIndex].length) setTimeout(typeText, delayTyping_text);
+}
+
     </script>
   </body>
 </html>
